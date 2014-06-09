@@ -1,0 +1,23 @@
+[
+    {
+        "name": "id1",
+        "lon": 204.0,
+        "lat": 101.0,
+        "studyId" : 1,
+        "stored" : true
+    },
+    {
+        "name": "id2",
+        "lon": 204.0,
+        "lat": 101.0,
+        "studyId" : 2,
+        "stored" : true
+    },
+    {
+        "name": "id3",
+        "lon": 204.0,
+        "lat": 101.0,
+        "studyId" : 3,
+        "stored" : false
+    }
+]
