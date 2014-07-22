@@ -37,10 +37,27 @@ public class LuceneIndexWriter {
     }
 
     public void createIndex(){
-        openIndex();
         JSONArray jsonObjects = parseJSONFile();
+        openIndex();
         addDocuments(jsonObjects);
         finish();
+    }
+
+    /**
+     * Parse a Json file. The file path should be included in the constructor
+     */
+    public JSONArray parseJSONFile(){
+
+        //Get the JSON file, in this case is in ~/resources/test.json
+        InputStream jsonFile =  getClass().getResourceAsStream(jsonFilePath);
+        Reader readerJson = new InputStreamReader(jsonFile);
+
+        //Parse the json file using simple-json library
+        Object fileObjects= JSONValue.parse(readerJson);
+        JSONArray arrayObjects=(JSONArray)fileObjects;
+
+        return arrayObjects;
+
     }
 
     public boolean openIndex(){
@@ -71,7 +88,7 @@ public class LuceneIndexWriter {
             for(String field : (Set<String>) object.keySet()){
                 Class type = object.get(field).getClass();
                 if(type.equals(String.class)){
-                    doc.add(new StringField(field, (String)object.get(field), Field.Store.YES));
+                    doc.add(new StringField(field, (String)object.get(field), Field.Store.NO));
                 }else if(type.equals(Long.class)){
                     doc.add(new LongField(field, (long)object.get(field), Field.Store.YES));
                 }else if(type.equals(Double.class)){
@@ -98,23 +115,6 @@ public class LuceneIndexWriter {
         } catch (IOException ex) {
             System.err.println("We had a problem closing the index: " + ex.getMessage());
         }
-    }
-
-    /**
-     * Parse a Json file. The file path should be included in the constructor
-     */
-    public JSONArray parseJSONFile(){
-
-        //Get the JSON file, in this case is in ~/resources/test.json
-        InputStream jsonFile =  getClass().getResourceAsStream(jsonFilePath);
-        Reader reader = new InputStreamReader(jsonFile);
-
-        //Parse the json file using simple-json library
-        Object fileObjects= JSONValue.parse(reader);
-        JSONArray arrayObjects=(JSONArray)fileObjects;
-
-        return arrayObjects;
-
     }
 
 
